@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "182527997501",
+    "firebase_url": "https://sport-spot-e7c54-default-rtdb.firebaseio.com",
+    "project_id": "sport-spot-e7c54",
+    "storage_bucket": "sport-spot-e7c54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182527997501:android:98fa301f265402f162dc54",
+        "android_client_info": {
+          "package_name": "com.example.sportspot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9PF_IcgA81j53ayu5XQH7GA-rEOVpYdM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
