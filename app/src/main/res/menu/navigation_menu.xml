@@ -19,5 +19,8 @@
     <item
         android:id="@+id/nav_logout"
         android:title="Logout"/>
+    <item
+        android:id="@+id/nav_singup"
+        android:title="signup"/>
 
 </menu>
