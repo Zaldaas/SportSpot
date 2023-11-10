@@ -2,7 +2,6 @@ package com.example.sportspot;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -14,57 +13,54 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class RegistrationActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
 
-    // Declare Firebase Auth and UI elements
+public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText emailEditText;
     private EditText passwordEditText;
-    private Button signUpButton;
+    private Button signInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_login);
 
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         // Reference UI elements
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-        signUpButton = findViewById(R.id.signUpButton);
+        signInButton = findViewById(R.id.signInButton);
 
         // Set OnClickListener for the Sign Up button
-        signUpButton.setOnClickListener(new View.OnClickListener() {
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                registerUser();
+            public void onClick(View v) {signInUser();}{
+
             }
         });
     }
-
-    private void registerUser() {
+    private void signInUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
         // Basic validation
         if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(RegistrationActivity.this, "Email and Password required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Email and Password required", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Firebase registration
-        mAuth.createUserWithEmailAndPassword(email, password)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(RegistrationActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                         System.out.println(task.getException());
                     }
                 });
     }
-}
+
+    }

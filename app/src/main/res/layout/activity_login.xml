@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity">
+    tools:context=".LoginActivity">
 
     <EditText
         android:id="@+id/emailEditText"
@@ -33,37 +33,39 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/signUpButton"
+        app:layout_constraintBottom_toTopOf="@+id/signInButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/signInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="155dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="155dp"
         android:layout_marginBottom="150dp"
-        android:text="Register"
+        android:text="Sign In"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="205dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="103dp"
-        android:layout_marginBottom="227dp"
-        android:text="Register"
+        android:id="@+id/textView2"
+        android:layout_width="145dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="170dp"
+        android:layout_marginTop="93dp"
+        android:layout_marginEnd="206dp"
+        android:layout_marginBottom="293dp"
+        android:text="Login"
         android:textSize="55sp"
         app:layout_constraintBottom_toTopOf="@+id/emailEditText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.35"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.214" />
 </androidx.constraintlayout.widget.ConstraintLayout>
