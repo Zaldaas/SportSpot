@@ -9,17 +9,24 @@ import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.AuthResult;
-import androidx.annotation.NonNull;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     // Declare Firebase Auth and UI elements
     private FirebaseAuth mAuth;
+
+    private FirebaseDatabase mData;
+
+    private DatabaseReference mDatabase;
+
     private EditText emailEditText;
     private EditText passwordEditText;
+    private EditText usernameEditText;
+    private EditText fnameEditText;
+    private EditText lnameEditText;
     private Button signUpButton;
 
     @Override
@@ -31,8 +38,12 @@ public class RegistrationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Reference UI elements
+
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
+        usernameEditText = findViewById(R.id.usernameEditText);
+        fnameEditText = findViewById(R.id.fnameEditText);
+        lnameEditText = findViewById(R.id.lnameEditText);
         signUpButton = findViewById(R.id.signUpButton);
 
         // Set OnClickListener for the Sign Up button
@@ -47,6 +58,12 @@ public class RegistrationActivity extends AppCompatActivity {
     private void registerUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
+        String username = usernameEditText.getText().toString().trim();
+        String fname = fnameEditText.getText().toString().trim();
+        String lname = lnameEditText.getText().toString().trim();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("Users");
+        //reference = mData.getReference();
 
         // Basic validation
         if (email.isEmpty() || password.isEmpty()) {
@@ -59,6 +76,11 @@ public class RegistrationActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+
+                        FirebaseUser currentUser = mAuth.getCurrentUser();
+                        Users user = new Users(currentUser.getUid(), fname, lname, username, email);
+                        mDatabase.child(currentUser.getUid()).setValue(user);
+
                         Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                         startActivity(intent);
                     } else {
