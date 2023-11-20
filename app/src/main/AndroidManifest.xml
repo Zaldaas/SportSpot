@@ -19,9 +19,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-        <activity
-            android:name=".AddPostActivity"
-            android:exported="false" />
+
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
