@@ -5,7 +5,6 @@ public class Users {
 
     public Users(){
 
-
     }
 
     public Users(String UID, String firstName, String lastName, String userName, String email) {
