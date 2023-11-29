@@ -16,13 +16,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
+
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button signInButton;
     private ProgressDialog loadingBar;
-
+    private Button BackButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         signInButton = findViewById(R.id.signInButton);
+        BackButton = findViewById(R.id.BackButton);
 
         // Initialize loadingBar
         loadingBar = new ProgressDialog(this);
@@ -44,7 +47,20 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {signInUser();}{
 
             }
+
+
+
         });
+
+        // Set OnClickListener for the Back Button (using lambda to shorten code)
+        BackButton.setOnClickListener(v -> backtowelcome());
+    }
+
+    private void backtowelcome() {
+        Intent returntowelcome = new Intent(LoginActivity.this, WelcomePageActivity.class);
+        returntowelcome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(returntowelcome);
+        finish();
     }
     private void signInUser() {
         String email = emailEditText.getText().toString().trim();
