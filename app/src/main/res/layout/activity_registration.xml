@@ -35,6 +35,7 @@
         android:layout_width="168dp"
         android:layout_height="53dp"
         android:layout_marginTop="28dp"
+        android:backgroundTint="@color/green"
         android:text="Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,9 +47,11 @@
         android:layout_height="82dp"
         android:layout_marginTop="28dp"
         android:text="Register"
-        android:textSize="55sp"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
