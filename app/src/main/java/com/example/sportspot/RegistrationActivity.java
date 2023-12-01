@@ -39,6 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText lnameEditText;
     private Button signUpButton;
     private CircleImageView profileImageView;
+    private Button BackButton;
 
     final static int Gallery_Pick = 1;
 
@@ -60,6 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
         lnameEditText = findViewById(R.id.lnameEditText);
         signUpButton = findViewById(R.id.signUpButton);
         profileImageView = findViewById(R.id.setup_profile_image);
+        BackButton = findViewById(R.id.BackButtonRegistration);
         // Set OnClickListener for the Sign Up button
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +69,8 @@ public class RegistrationActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+
+        BackButton.setOnClickListener(v -> backtowelcome());
 
         // Set OnClickListener for the profile image view
         profileImageView.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +93,13 @@ public class RegistrationActivity extends AppCompatActivity {
             // Set the selected image to the profile image view
             profileImageView.setImageURI(imageUri);
         }
+    }
+
+    private void backtowelcome() {
+        Intent returntowelcome = new Intent(RegistrationActivity.this, WelcomePageActivity.class);
+        returntowelcome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(returntowelcome);
+        finish();
     }
 
     private void registerUser() {
