@@ -5,11 +5,11 @@ SportSpot is an app where you can connect with a community of fellow sports-love
 
 ## Technology Stack
 The Tech Stack we used for SportSpot development is as follows:
-**Browser:** Mobile Application
-**Language:** Java
-**Framework:** SCRUM Framework
-**Software:** Android Studio 
-**Database & Webserver:** Firebase
-**OS:** Android
+**Browser:** Mobile Application  
+**Language:** Java  
+**Framework:** SCRUM Framework  
+**Software:** Android Studio  
+**Database & Webserver:** Firebase  
+**OS:** Android  
 
 ## How to Use
