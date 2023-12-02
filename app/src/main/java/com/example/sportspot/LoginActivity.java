@@ -16,8 +16,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-
-
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText emailEditText;
@@ -25,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button signInButton;
     private ProgressDialog loadingBar;
     private Button BackButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,9 +46,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {signInUser();}{
 
             }
-
-
-
         });
 
         // Set OnClickListener for the Back Button (using lambda to shorten code)

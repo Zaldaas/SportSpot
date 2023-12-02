@@ -101,6 +101,7 @@ public class RegistrationActivity extends AppCompatActivity {
         startActivity(returntowelcome);
         finish();
     }
+
     private void registerUser() {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
