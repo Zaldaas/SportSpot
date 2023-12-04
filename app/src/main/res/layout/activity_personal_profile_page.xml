@@ -8,10 +8,13 @@
 
     <TextView
         android:id="@+id/profileUsername"
-        android:layout_width="178dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="222dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="monospace"
+        android:textAlignment="center"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,12 +22,10 @@
         android:id="@+id/profileEditButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="9dp"
-        android:backgroundTint="@color/green"
+        android:layout_marginStart="9dp"
         android:text="Edit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/personalProfileImage" />
+        app:layout_constraintBottom_toTopOf="@+id/current_user_post_list"
+        app:layout_constraintStart_toEndOf="@+id/backButton" />
 
     <ImageView
         android:id="@+id/personalProfileImage"
@@ -35,5 +36,24 @@
         android:src="@drawable/profile_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/current_user_post_list"
+        android:layout_width="390dp"
+        android:layout_height="523dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Back"
+        app:layout_constraintBottom_toTopOf="@+id/current_user_post_list"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
