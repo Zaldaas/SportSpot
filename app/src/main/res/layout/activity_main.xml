@@ -36,7 +36,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginRight="12dp"
             android:layout_marginBottom="4dp"
-            android:background="@color/purple"
+            android:background="@color/green"
             android:baselineAlignBottom="false"
             android:focusableInTouchMode="false"
             android:scaleType="centerCrop"

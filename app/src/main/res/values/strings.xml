@@ -2,5 +2,4 @@
     <string name="app_name">SportSpot</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
-    <color name="green">#0B6138</color>
 </resources>

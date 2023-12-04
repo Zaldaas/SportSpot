@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".PostActivity">
 
+    <EditText
+        android:id="@+id/post_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-3dp"
+        android:layout_marginBottom="220dp"
+        android:ems="10"
+        android:hint="what the meetup about?"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:textAlignment="center" />
+
     <include
         android:id="@+id/update_post_page_toolbar"
         layout="@layout/app_bar_layout"/>
@@ -17,27 +35,44 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="103dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="65dp"
+        android:layout_marginEnd="-1dp"
         android:scaleType="fitCenter"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <EditText
-        android:id="@+id/post_description"
+        android:id="@+id/post_sport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="-3dp"
+        android:layout_marginStart="-2dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="279dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginBottom="316dp"
         android:ems="10"
-        android:gravity="start|top"
-        android:hint="what's your image about?"
+        android:hint="what is the sport?"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/post_date_range"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-2dp"
+        android:layout_marginBottom="267dp"
+        android:ems="10"
+        android:hint="what date and time is event?"
         android:inputType="textMultiLine"
         android:padding="10dp"
         android:textAlignment="center" />
@@ -51,6 +86,9 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="100dp"
         android:text="Update Post"
-        android:textSize="18sp" />
+        android:textColorHighlight="#0B6138"
+        android:textColorLink="#0B6138"
+        android:textSize="18sp"
+        android:backgroundTint="@color/green"/>
 
 </RelativeLayout>

@@ -44,9 +44,13 @@ public class PostActivity extends AppCompatActivity {
     private ImageButton SelectPostImage;
     private Button UpdatePostButton;
     private EditText PostDescription;
+    private EditText PostSport;
+    private EditText PostDateRange;
     private static final int Gallery_Pick = 1;
     private Uri ImageUri;
     private String Description;
+    private String Sport;
+    private String DateRange;
 
     private StorageReference PostsImagesReference;
     private DatabaseReference UsersRef, PostsRef;
@@ -70,7 +74,9 @@ public class PostActivity extends AppCompatActivity {
 
         SelectPostImage = (ImageButton) findViewById(R.id.select_post_image);
         UpdatePostButton = (Button) findViewById(R.id.update_post_button);
-        PostDescription =(EditText) findViewById(R.id.post_description);
+        PostDescription = (EditText) findViewById(R.id.post_description);
+        PostSport = (EditText) findViewById(R.id.post_sport);
+        PostDateRange = (EditText) findViewById(R.id.post_date_range);
         loadingBar = new ProgressDialog(this);
 
         mToolbar = (Toolbar) findViewById(R.id.update_post_page_toolbar);
@@ -96,6 +102,8 @@ public class PostActivity extends AppCompatActivity {
 
     private void ValidatePostInfo() {
         Description = PostDescription.getText().toString();
+        Sport = PostSport.getText().toString();
+        DateRange = PostDateRange.getText().toString();
 
         if(ImageUri == null)
         {
@@ -104,6 +112,14 @@ public class PostActivity extends AppCompatActivity {
         else if(TextUtils.isEmpty(Description))
         {
             Toast.makeText(this, "Please say something about your image...", Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(Sport))
+        {
+            Toast.makeText(this, "Please say something about the sport", Toast.LENGTH_SHORT).show();
+        }
+        else if(TextUtils.isEmpty(DateRange))
+        {
+            Toast.makeText(this, "Please say something about the time", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -164,14 +180,17 @@ public class PostActivity extends AppCompatActivity {
                     String userName = datasnapshot.child("userName").getValue().toString();
                     String userProfileImage = datasnapshot.child("profileImage").getValue().toString();
 
+                    //saving hashmap information to firebase
                     HashMap<String, Object> postsMap = new HashMap<>();
                     postsMap.put("uid", current_user_id);
                     postsMap.put("date", saveCurrentDate);
                     postsMap.put("time", saveCurrentTime);
                     postsMap.put("description", Description);
+                    postsMap.put("sport", Sport);
+                    postsMap.put("daterange", DateRange);
                     postsMap.put("postimage", downloadUrl.toString());
                     postsMap.put("profileimage", userProfileImage);
-                    postsMap.put("userName", userName);
+                    postsMap.put("username", userName);
 
                     PostsRef.push().updateChildren(postsMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

@@ -29,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.PropertyName;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
@@ -203,12 +204,26 @@ public class MainActivity extends AppCompatActivity {
                 new FirebaseRecyclerAdapter<Posts, PostsViewHolder>(options) {
                     @Override
                     protected void onBindViewHolder(@NonNull PostsViewHolder holder, int position, @NonNull Posts model) {
+                        final String PostKey = getRef(position).getKey();
+
                         holder.setUsername(model.getUsername()); // Fix the method name here
                         holder.setTime(model.getTime());
                         holder.setDate(model.getDate());
+                        holder.setSport(model.getSport());
+                        holder.setDaterange(model.getDaterange());
                         holder.setDescription(model.getDescription());
                         holder.setProfileimage(getApplicationContext(), model.getProfileimage());
                         holder.setPostimage(getApplicationContext(), model.getPostimage());
+
+                        holder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent clickPostIntent = new Intent(MainActivity.this,ClickPostActivity.class);
+                                clickPostIntent.putExtra("PostKey", PostKey);
+                                startActivity(clickPostIntent);
+                            }
+                        });
+
                     }
 
                     @NonNull
@@ -260,6 +275,19 @@ public class MainActivity extends AppCompatActivity {
         {
             TextView PostDescription = (TextView) mView.findViewById(R.id.post_description);
             PostDescription.setText(description);
+        }
+
+        public void setSport(String sport)
+        {
+            TextView PostSport = (TextView) mView.findViewById(R.id.post_sport);
+            PostSport.setText(sport);
+        }
+
+        public void setDaterange(String daterange)
+        {
+            TextView PostDateRange = (TextView) mView.findViewById(R.id.post_date_range);
+            PostDateRange.setText(daterange);
+
         }
 
         public void setPostimage(Context ctx1,  String postimage)

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ClickPostActivity">
+
+    <Button
+        android:id="@+id/edit_daterange_button"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="180dp"
+        android:backgroundTint="@color/green"
+        android:text="Edit Date Range"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/edit_sport_button"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="73dp"
+        android:backgroundTint="@color/green"
+        android:text="Edit Sport"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/edit_image"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <TextView
+        android:id="@+id/edit_sport"
+        android:layout_width="427dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="275dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="Post Sport"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/edit_date_range"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="339dp"
+        android:layout_marginEnd="29dp"
+        android:layout_marginRight="10dp"
+        android:text="Post Date Range"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/edit_description"
+        android:layout_width="wrap_content"
+        android:layout_height="95dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="257dp"
+        android:text="Post Description"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/edit_post_button"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="180dp"
+        android:backgroundTint="@color/green"
+        android:text="Edit Description"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/delete_post_button"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="73dp"
+        android:backgroundTint="@color/green"
+        android:text="Delete Post"
+        android:textSize="16sp" />
+</RelativeLayout>

@@ -79,6 +79,29 @@
             </LinearLayout>
         </LinearLayout>
         <TextView
+            android:id="@+id/post_sport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sport Name"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:padding="3dp"
+            android:textSize="14sp"
+            android:textColor="@android:color/black">
+        </TextView>
+
+        <TextView
+            android:id="@+id/post_date_range"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:padding="3dp"
+            android:text="Date and time of the event"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"></TextView>
+
+        <TextView
             android:id="@+id/post_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -89,14 +112,14 @@
             android:textSize="14sp"
             android:textColor="@android:color/black">
         </TextView>
+
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="3dp"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop">
-        </ImageView>
+            android:scaleType="centerCrop"></ImageView>
 
     </LinearLayout>
 </RelativeLayout>

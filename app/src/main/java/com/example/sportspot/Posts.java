@@ -1,20 +1,33 @@
 package com.example.sportspot;
 
+import com.google.firebase.database.PropertyName;
+
 public class Posts {
-    public String uid, time, date, postimage, description, profileimage, username;
+    public String uid, time, date, postimage, description, sport, daterange, profileimage, username;
 
     public Posts() {
         // Default constructor required for calls to DataSnapshot.getValue(Posts.class)
     }
 
-    public Posts(String uid, String time, String date, String postimage, String description, String profileimage, String username) {
+    public Posts(String uid, String time, String date, String postimage, String description, String sport, String daterange, String profileimage, String username) {
         this.uid = uid;
         this.time = time;
         this.date = date;
         this.postimage = postimage;
         this.description = description;
+        this.sport = sport;
+        this.daterange = daterange;
         this.profileimage = profileimage;
         this.username = username;
+    }
+
+    @PropertyName("daterange")
+    public String getDaterange() {
+        return daterange;
+    }
+
+    public void setDaterange(String daterange) {
+        this.daterange = daterange;
     }
 
     public String getUid() {
@@ -55,6 +68,14 @@ public class Posts {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSport() {
+        return sport;
+    }
+
+    public void setSport(String sport) {
+        this.sport = sport;
     }
 
     public String getProfileimage() {
