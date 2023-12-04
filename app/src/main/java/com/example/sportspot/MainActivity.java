@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
                             String username = dataSnapshot.child("userName").getValue().toString();
                             NavProfileUserName.setText(username);
                         }
-                        if (dataSnapshot.hasChild("profileimage")) {
-                            String image = dataSnapshot.child("profileimage").getValue().toString();
+                        if (dataSnapshot.hasChild("profileImage")) {
+                            String image = dataSnapshot.child("profileImage").getValue().toString();
                             Picasso.get().load(image).placeholder(R.drawable.profile_image).into(NavProfileImage);
                         } else {
                             Toast.makeText(MainActivity.this, "Profile name does not exist...", Toast.LENGTH_SHORT).show();
