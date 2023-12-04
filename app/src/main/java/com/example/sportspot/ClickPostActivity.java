@@ -61,6 +61,9 @@ public class ClickPostActivity extends AppCompatActivity {
         //hides edit and delete buttons if the user clicks on a post that isn't theirs
         DeletePostButton.setVisibility(View.INVISIBLE);
         EditPostButton.setVisibility(View.INVISIBLE);
+        EditSportButton.setVisibility(View.INVISIBLE);
+        EditDateRangeButton.setVisibility(View.INVISIBLE);
+
 
         ClickPostRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -95,6 +98,8 @@ public class ClickPostActivity extends AppCompatActivity {
                         if (currentUserID.equals(databaseUserID)) {
                             DeletePostButton.setVisibility(View.VISIBLE);
                             EditPostButton.setVisibility(View.VISIBLE);
+                            EditSportButton.setVisibility(View.VISIBLE);
+                            EditDateRangeButton.setVisibility(View.VISIBLE);
                         }
 
                         EditPostButton.setOnClickListener(new View.OnClickListener() {
@@ -219,9 +224,31 @@ public class ClickPostActivity extends AppCompatActivity {
 
 
     private void DeleteCurrentPost() {
-        ClickPostRef.removeValue();
-        SendUserToMainActivity();
-        Toast.makeText(this, "Post has been deleted", Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(ClickPostActivity.this);
+        builder.setTitle("Confirm Deletion");
+        builder.setMessage("Are you sure you want to delete this post?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // User clicked Yes, delete the post
+                ClickPostRef.removeValue();
+                SendUserToMainActivity();
+                Toast.makeText(ClickPostActivity.this, "Post has been deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // User clicked No, do nothing
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.white);
     }
 
     private void SendUserToMainActivity() {

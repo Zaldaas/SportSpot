@@ -40,7 +40,6 @@ public class PostActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private ProgressDialog loadingBar;
-
     private ImageButton SelectPostImage;
     private Button UpdatePostButton;
     private EditText PostDescription;
