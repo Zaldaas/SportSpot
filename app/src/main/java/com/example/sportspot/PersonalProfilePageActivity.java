@@ -3,10 +3,12 @@ package com.example.sportspot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,8 +26,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.json.JSONObject;
-
 public class PersonalProfilePageActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
@@ -36,6 +36,9 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
     private String profileImageLocation = "";
     private FirebaseStorage firebaseStorage;
     private StorageReference storageRef;
+
+    private Button searchforuser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +46,13 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
-
         firebaseStorage = FirebaseStorage.getInstance();
         storageRef = firebaseStorage.getReference();
-
 
         personalProfileImage = findViewById(R.id.personalProfileImage);
         username = findViewById(R.id.profileUsername);
         editButton = findViewById(R.id.profileEditButton);
+        searchforuser = findViewById(R.id.Searchuserbutton);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -59,46 +61,61 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
         StorageReference pathReference = storageRef.child("ProfileImages/" + profileImageLocation);
 
         final long ONE_MEGABYTE = 1024 * 1024;
-        pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+
+        searchforuser.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                personalProfileImage.setImageBitmap(bmp);
-                Toast.makeText(getApplicationContext(), "Image Found!", Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("location", profileImageLocation);
-                Toast.makeText(getApplicationContext(), "No path found", Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                backtosearch();
             }
         });
 
-        databaseReference.child("Users/" + currentUser.getUid() + "/userName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if(task.isSuccessful()){
-                    Log.i("value", String.valueOf(task.getResult().getValue()));
-                    username.setText(String.valueOf(task.getResult().getValue()));
+        // Get the user UID passed from SearchActivity
+        String userUid = getIntent().getStringExtra("userUid");
+
+        if (userUid != null) {
+            // Use the userUid to fetch the user's profile data
+            DatabaseReference userRef = databaseReference.child("Users").child(userUid);
+
+            userRef.child("userName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        String foundUsername = String.valueOf(task.getResult().getValue());
+                        username.setText(foundUsername);
+                    } else {
+                        Log.i("Error", "Error retrieving username", task.getException());
+                    }
                 }
-                else{
-                    Log.i("Error","error retrieving username", task.getException());
+            });
+
+            // Fetch and display the user's profile image
+            pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    personalProfileImage.setImageBitmap(bmp);
+                    Toast.makeText(getApplicationContext(), "Image Found!", Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i("location", profileImageLocation);
+                    Toast.makeText(getApplicationContext(), "No path found", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
-
-
-
-
-
-
-
-
-
+        // Other code for displaying user's own profile
     }
 
-    private void setProfileImage(String location){
+    private void backtosearch() {
+        Intent backtosearch = new Intent(PersonalProfilePageActivity.this, SearchActivity.class);
+        backtosearch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(backtosearch);
+        finish();
+    }
+
+    private void setProfileImage(String location) {
 
     }
 }
