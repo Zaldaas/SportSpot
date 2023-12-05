@@ -222,6 +222,7 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
 
                     @Override
                     protected void onBindViewHolder(@NonNull PersonalProfilePageActivity.PostsViewHolder holder, int position, @NonNull Posts model) {
+                        final String PostKey = getRef(position).getKey();
 
                         if(model.getUid().equals(uid)) {
                             holder.setUsername(model.getUsername()); // Fix the method name here
@@ -239,6 +240,15 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
 
                             Log.i("UID", model.getUid());
                         }
+
+                        holder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent clickPostIntent = new Intent(PersonalProfilePageActivity.this,ClickPostActivity.class);
+                                clickPostIntent.putExtra("PostKey", PostKey);
+                                startActivity(clickPostIntent);
+                            }
+                        });
                     }
 
                     //@NonNull
