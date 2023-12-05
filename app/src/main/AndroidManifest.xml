@@ -16,6 +16,12 @@
         android:theme="@style/Theme.SportSpot"
         tools:targetApi="31">
         <activity
+            android:name=".SearchActivity"
+            android:exported="true" />
+        <activity
+            android:name=".PublicProfilePageActivity"
+            android:exported="true" />
+        <activity
             android:name=".ClickPostActivity"
             android:exported="false" />
         <activity

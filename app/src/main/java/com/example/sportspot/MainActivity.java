@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
@@ -193,52 +194,6 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-
-    private void DisplayAllUsersPosts() {
-        FirebaseRecyclerOptions<Posts> options =
-                new FirebaseRecyclerOptions.Builder<Posts>()
-                        .setQuery(PostsRef, Posts.class)
-                        .build();
-
-        FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Posts, PostsViewHolder>(options) {
-                    @Override
-                    protected void onBindViewHolder(@NonNull PostsViewHolder holder, int position, @NonNull Posts model) {
-                        final String PostKey = getRef(position).getKey();
-
-                        holder.setUsername(model.getUsername()); // Fix the method name here
-                        holder.setTime(model.getTime());
-                        holder.setDate(model.getDate());
-                        holder.setSport(model.getSport());
-                        holder.setDaterange(model.getDaterange());
-                        holder.setDescription(model.getDescription());
-                        holder.setProfileimage(getApplicationContext(), model.getProfileimage());
-                        holder.setPostimage(getApplicationContext(), model.getPostimage());
-
-                        holder.mView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent clickPostIntent = new Intent(MainActivity.this,ClickPostActivity.class);
-                                clickPostIntent.putExtra("PostKey", PostKey);
-                                startActivity(clickPostIntent);
-                            }
-                        });
-
-                    }
-
-                    @NonNull
-                    @Override
-                    public PostsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_posts_layout, parent, false);
-                        return new PostsViewHolder(view);
-                    }
-                };
-
-        postList.setAdapter(firebaseRecyclerAdapter);
-        firebaseRecyclerAdapter.startListening();
-    }
-
-
     public static class PostsViewHolder extends RecyclerView.ViewHolder{
 
         View mView;
@@ -297,6 +252,54 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void DisplayAllUsersPosts() {
+        FirebaseRecyclerOptions<Posts> options =
+                new FirebaseRecyclerOptions.Builder<Posts>()
+                        .setQuery(PostsRef, Posts.class)
+                        .build();
+
+        FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter =
+                new FirebaseRecyclerAdapter<Posts, PostsViewHolder>(options) {
+                    @Override
+                    protected void onBindViewHolder(@NonNull PostsViewHolder holder, int position, @NonNull Posts model) {
+                        final String PostKey = getRef(position).getKey();
+
+                        holder.setUsername(model.getUsername()); // Fix the method name here
+                        holder.setTime(model.getTime());
+                        holder.setDate(model.getDate());
+                        holder.setSport(model.getSport());
+                        holder.setDaterange(model.getDaterange());
+                        holder.setDescription(model.getDescription());
+                        holder.setProfileimage(getApplicationContext(), model.getProfileimage());
+                        holder.setPostimage(getApplicationContext(), model.getPostimage());
+
+                        holder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent clickPostIntent = new Intent(MainActivity.this,ClickPostActivity.class);
+                                clickPostIntent.putExtra("PostKey", PostKey);
+                                startActivity(clickPostIntent);
+                            }
+                        });
+
+                    }
+
+                    @NonNull
+                    @Override
+                    public PostsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_posts_layout, parent, false);
+                        return new PostsViewHolder(view);
+                    }
+                };
+
+        postList.setAdapter(firebaseRecyclerAdapter);
+        firebaseRecyclerAdapter.startListening();
+    }
+
+    private void SendUserToSearchActivity(){
+        Intent sendToSearch = new Intent(MainActivity.this, SearchActivity.class);
+        startActivity(sendToSearch);
+    }
     private void SendUserToPostActivity() {
         Intent addNewPostIntent = new Intent(MainActivity.this, PostActivity.class);
         startActivity(addNewPostIntent);
@@ -327,7 +330,8 @@ public class MainActivity extends AppCompatActivity {
         } else if (itemId == R.id.nav_friends) {
             Toast.makeText(this, "Friend List", Toast.LENGTH_SHORT).show();
         } else if (itemId == R.id.nav_find_friends) {
-            Toast.makeText(this, "Find Friends", Toast.LENGTH_SHORT).show();
+            SendUserToSearchActivity();
+            //Toast.makeText(this, "Find Friends", Toast.LENGTH_SHORT).show();
         } else if (itemId == R.id.nav_messages) {
             Toast.makeText(this, "Messages", Toast.LENGTH_SHORT).show();
         } else if (itemId == R.id.nav_settings) {
