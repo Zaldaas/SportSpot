@@ -29,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -208,9 +209,11 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
 
 
     private void DisplayCurrentUsersPosts(String uid) {
+        // Create a query to retrieve only the posts of the current user
+        Query userPostsQuery = PostsRef.orderByChild("uid").equalTo(uid);
         FirebaseRecyclerOptions<Posts> options =
                 new FirebaseRecyclerOptions.Builder<Posts>()
-                        .setQuery(PostsRef, Posts.class)
+                        .setQuery(userPostsQuery, Posts.class) //alsp updated here -zootzoot
                         .build();
 
         FirebaseRecyclerAdapter<Posts, PersonalProfilePageActivity.PostsViewHolder> firebaseRecyclerAdapter =
@@ -236,13 +239,7 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
 
                             Log.i("UID", model.getUid());
                         }
-
-
-
-
-
                     }
-
 
                     //@NonNull
                     @Override
