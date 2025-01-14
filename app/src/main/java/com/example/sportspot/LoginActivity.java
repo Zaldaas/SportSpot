@@ -3,26 +3,21 @@ package com.example.sportspot;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText emailEditText;
     private EditText passwordEditText;
-    private Button signInButton;
     private ProgressDialog loadingBar;
-    private Button BackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +29,17 @@ public class LoginActivity extends AppCompatActivity {
         // Reference UI elements
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
-        signInButton = findViewById(R.id.signInButton);
-        BackButton = findViewById(R.id.BackButton);
+        Button signInButton = findViewById(R.id.signInButton);
+        Button backButton = findViewById(R.id.BackButton);
 
         // Initialize loadingBar
         loadingBar = new ProgressDialog(this);
 
         // Set OnClickListener for the Sign Up button
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {signInUser();}{
-
-            }
-        });
+        signInButton.setOnClickListener(v -> signInUser());
 
         // Set OnClickListener for the Back Button (using lambda to shorten code)
-        BackButton.setOnClickListener(v -> backtowelcome());
+        backButton.setOnClickListener(v -> backtowelcome());
     }
 
     private void backtowelcome() {
@@ -76,21 +66,18 @@ public class LoginActivity extends AppCompatActivity {
 
         // Firebase registration
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        loadingBar.dismiss(); // Dismiss the loadingBar
+                .addOnCompleteListener(task -> {
+                    loadingBar.dismiss(); // Dismiss the loadingBar
 
-                        if(task.isSuccessful())
-                        {
-                            SendUserToMainActivity();
-                            Toast.makeText(LoginActivity.this, "you are Logged In successfully.", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
-                            String message = task.getException().getMessage();
-                            Toast.makeText(LoginActivity.this, "Error occured: " + message, Toast.LENGTH_SHORT).show();
-                        }
+                    if(task.isSuccessful())
+                    {
+                        SendUserToMainActivity();
+                        Toast.makeText(LoginActivity.this, "you are Logged In successfully.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        String message = Objects.requireNonNull(task.getException()).getMessage();
+                        Toast.makeText(LoginActivity.this, "Error occured: " + message, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

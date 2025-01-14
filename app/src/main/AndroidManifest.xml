@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -28,12 +26,6 @@
             android:name=".RegistrationActivity"
             android:exported="true" />
         <activity
-            android:name=".Posts"
-            android:exported="true" />
-        <activity
-            android:name=".Users"
-            android:exported="true" />
-        <activity
             android:name=".LoginActivity"
             android:exported="true" />
         <activity
@@ -48,9 +40,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>

@@ -23,14 +23,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class ClickPostActivity extends AppCompatActivity {
 
     private ImageView EditImage;
     private TextView EditSport, EditDateRange, EditDescription;
     private Button DeletePostButton, EditPostButton, EditDateRangeButton, EditSportButton;
     private DatabaseReference ClickPostRef;
-    private FirebaseAuth mAuth;
-    private String PostKey, currentUserID, databaseUserID, sport, daterange, description, image ;
+    private String currentUserID;
+    private String databaseUserID;
+    private String sport;
+    private String daterange;
+    private String description;
+    private String image ;
 
     public ClickPostActivity() {
     }
@@ -40,13 +46,13 @@ public class ClickPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_click_post);
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUserID = mAuth.getCurrentUser().getUid();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        currentUserID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         //gets the postkey from the main activity
-        PostKey = getIntent().getExtras().get("PostKey").toString();
+        String postKey = Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).get("PostKey")).toString();
         //will get the postkey from firebase under "Posts"
-        ClickPostRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(PostKey);
+        ClickPostRef = FirebaseDatabase.getInstance().getReference().child("Posts").child(postKey);
 
         EditImage = (ImageView) findViewById(R.id.edit_image);
         EditSport = (TextView) findViewById(R.id.edit_sport);
@@ -72,27 +78,27 @@ public class ClickPostActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     // Check if the values are null before using them
                     if (snapshot.child("sport").getValue() != null) {
-                        sport = snapshot.child("sport").getValue().toString();
+                        sport = Objects.requireNonNull(snapshot.child("sport").getValue()).toString();
                         EditSport.setText(sport);
                     }
 
                     if (snapshot.child("daterange").getValue() != null) {
-                        daterange = snapshot.child("daterange").getValue().toString();
+                        daterange = Objects.requireNonNull(snapshot.child("daterange").getValue()).toString();
                         EditDateRange.setText(daterange);
                     }
 
                     if (snapshot.child("description").getValue() != null) {
-                        description = snapshot.child("description").getValue().toString();
+                        description = Objects.requireNonNull(snapshot.child("description").getValue()).toString();
                         EditDescription.setText(description);
                     }
 
                     if (snapshot.child("postimage").getValue() != null) {
-                        image = snapshot.child("postimage").getValue().toString();
+                        image = Objects.requireNonNull(snapshot.child("postimage").getValue()).toString();
                         Picasso.get().load(image).into(EditImage);
                     }
 
                     if (snapshot.child("uid").getValue() != null) {
-                        databaseUserID = snapshot.child("uid").getValue().toString();
+                        databaseUserID = Objects.requireNonNull(snapshot.child("uid").getValue()).toString();
 
                         //if the uid is the same as the user's, then the option to change the post will appear
                         if (currentUserID.equals(databaseUserID)) {
@@ -165,7 +171,7 @@ public class ClickPostActivity extends AppCompatActivity {
         });
         Dialog dialog = builder.create();
         dialog.show();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.white);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.color.white);
     }
 
     private void EditCurrentDateRange(String daterange) {
@@ -192,7 +198,7 @@ public class ClickPostActivity extends AppCompatActivity {
         });
         Dialog dialog = builder.create();
         dialog.show();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.white);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.color.white);
     }
 
     private void EditCurrentSport(String sport) {
@@ -219,7 +225,7 @@ public class ClickPostActivity extends AppCompatActivity {
         });
         Dialog dialog = builder.create();
         dialog.show();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.white);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.color.white);
     }
 
 
@@ -248,7 +254,7 @@ public class ClickPostActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.white);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.color.white);
     }
 
     private void SendUserToMainActivity() {

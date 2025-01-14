@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.Toast;
@@ -28,8 +27,6 @@ public class RegistrationActivity extends AppCompatActivity {
     // Declare Firebase Auth and UI elements
     private FirebaseAuth mAuth;
 
-    private FirebaseDatabase mData;
-
     private DatabaseReference mDatabase;
 
     private EditText emailEditText;
@@ -37,9 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText fnameEditText;
     private EditText lnameEditText;
-    private Button signUpButton;
     private CircleImageView profileImageView;
-    private Button BackButton;
 
     final static int Gallery_Pick = 1;
 
@@ -59,29 +54,21 @@ public class RegistrationActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.usernameEditText);
         fnameEditText = findViewById(R.id.fnameEditText);
         lnameEditText = findViewById(R.id.lnameEditText);
-        signUpButton = findViewById(R.id.signUpButton);
+        Button signUpButton = findViewById(R.id.signUpButton);
         profileImageView = findViewById(R.id.setup_profile_image);
-        BackButton = findViewById(R.id.BackButtonRegistration);
+        Button backButton = findViewById(R.id.BackButtonRegistration);
         // Set OnClickListener for the Sign Up button
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerUser();
-            }
-        });
+        signUpButton.setOnClickListener(v -> registerUser());
 
-        BackButton.setOnClickListener(v -> backtowelcome());
+        backButton.setOnClickListener(v -> backtowelcome());
 
         // Set OnClickListener for the profile image view
-        profileImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Open gallery to select an image
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, Gallery_Pick);
-            }
+        profileImageView.setOnClickListener(view -> {
+            // Open gallery to select an image
+            Intent galleryIntent = new Intent();
+            galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+            galleryIntent.setType("image/*");
+            startActivityForResult(galleryIntent, Gallery_Pick);
         });
     }
 

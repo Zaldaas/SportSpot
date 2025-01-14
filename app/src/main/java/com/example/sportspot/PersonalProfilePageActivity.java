@@ -3,6 +3,7 @@ package com.example.sportspot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,10 +20,6 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,43 +35,39 @@ import com.squareup.picasso.Picasso;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PersonalProfilePageActivity extends AppCompatActivity {
     private ArrayList<String> postListArray;
     private RecyclerView postList;
-    private FirebaseAuth mAuth;
-    private DatabaseReference databaseReference, PostsRef;
-    private FirebaseDatabase database;
+    private DatabaseReference PostsRef;
     private ImageView personalProfileImage;
     private TextView username;
-    private Button editButton, backButton;
     private String profileImageLocation = "";
-    private FirebaseStorage firebaseStorage;
-    private StorageReference storageRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_profile_page);
 
-        mAuth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageRef = firebaseStorage.getReference();
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference storageRef = firebaseStorage.getReference();
 
-        backButton = findViewById(R.id.backButton);
+        Button backButton = findViewById(R.id.backButton);
 
         personalProfileImage = findViewById(R.id.personalProfileImage);
         username = findViewById(R.id.profileUsername);
-        editButton = findViewById(R.id.profileEditButton);
+        findViewById(R.id.profileEditButton);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        assert currentUser != null;
         profileImageLocation = currentUser.getUid() + ".jpg";
 
         StorageReference pathReference = storageRef.child("ProfileImages/" + profileImageLocation);
@@ -90,72 +83,34 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
         postList.setLayoutManager(linearLayoutManager);
 
         final long ONE_MEGABYTE = 1024 * 1024;
-        pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                personalProfileImage.setImageBitmap(bmp);
-                Toast.makeText(getApplicationContext(), "Image Found!", Toast.LENGTH_LONG).show();
+        pathReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
+            Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            personalProfileImage.setImageBitmap(bmp);
+            Toast.makeText(getApplicationContext(), "Image Found!", Toast.LENGTH_LONG).show();
+        }).addOnFailureListener(e -> {
+            Log.i("location", profileImageLocation);
+            Toast.makeText(getApplicationContext(), "No path found", Toast.LENGTH_LONG).show();
+        });
+
+        databaseReference.child("Users/" + currentUser.getUid() + "/userName").get().addOnCompleteListener(task -> {
+
+
+
+            if(task.isSuccessful()){
+                Log.i("value", String.valueOf(task.getResult().getValue()));
+                username.setText(String.valueOf(task.getResult().getValue()));
+
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("location", profileImageLocation);
-                Toast.makeText(getApplicationContext(), "No path found", Toast.LENGTH_LONG).show();
+            else{
+                Log.i("Error","error retrieving username", task.getException());
             }
         });
 
-        databaseReference.child("Users/" + currentUser.getUid() + "/userName").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-
-
-
-                if(task.isSuccessful()){
-                    Log.i("value", String.valueOf(task.getResult().getValue()));
-                    username.setText(String.valueOf(task.getResult().getValue()));
-
-                }
-                else{
-                    Log.i("Error","error retrieving username", task.getException());
-                }
-            }
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(PersonalProfilePageActivity.this, MainActivity.class);
+            startActivity(intent);
         });
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PersonalProfilePageActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-/*        databaseReference.child("Posts/").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> retrievePosts) {
-
-                if(retrievePosts.isSuccessful()){
-                    Log.i("value", String.valueOf(retrievePosts.getResult().getValue()));
-                    username.setText(String.valueOf(retrievePosts.getResult().getValue()));
-                    for (DataSnapshot child : retrievePosts.getResult().getChildren()) {
-                        Log.i("Children", String.valueOf(child.getValue()));
-                        for (DataSnapshot newChild : child.getChildren()) {
-                            Log.i("Children of Children", String.valueOf(newChild.getValue()));
-
-                        }
-
-                    }
-                }
-                else{
-                    Log.i("Error","error retrieving posts", retrievePosts.getException());
-                }
-            }
-        });
-
-
-*/
 
         postListArray = new ArrayList<>();
         retrieveUserPosts(currentUser.getUid());
@@ -168,14 +123,14 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList retrieveUserPosts(String uid) {
+    private void retrieveUserPosts(String uid) {
 
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("Posts");
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot postID : snapshot.getChildren()) {
-                    if(postID.child("uid").getValue().toString().equals(uid)){
+                    if(Objects.requireNonNull(postID.child("uid").getValue()).toString().equals(uid)){
                         postListArray.add(postID.getKey());
                     }
                 }
@@ -193,14 +148,11 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
         });
         Log.i("After method in retrieve", postListArray.toString());
 
-        return postListArray;
     }
 
     private void setUserPostList(ArrayList<String> userPosts, String uid){
-        if(postListArray.size() > 0) {
+        if(!postListArray.isEmpty()) {
             postListArray = userPosts;
-            //Log.i("In method", postListArray.get(0).toString());
-            //PostsRef = FirebaseDatabase.getInstance().getReference().child("Posts/" + postListArray.get(0));
             PostsRef = FirebaseDatabase.getInstance().getReference().child(("Posts"));
             //Log.i("POST REF", PostsRef.toString());
             DisplayCurrentUsersPosts(uid);
@@ -217,14 +169,14 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
                         .build();
 
         FirebaseRecyclerAdapter<Posts, PersonalProfilePageActivity.PostsViewHolder> firebaseRecyclerAdapter =
-                new FirebaseRecyclerAdapter<Posts, PersonalProfilePageActivity.PostsViewHolder>(options) {
+                new FirebaseRecyclerAdapter<>(options) {
 
 
                     @Override
                     protected void onBindViewHolder(@NonNull PersonalProfilePageActivity.PostsViewHolder holder, int position, @NonNull Posts model) {
                         final String PostKey = getRef(position).getKey();
 
-                        if(model.getUid().equals(uid)) {
+                        if (model.getUid().equals(uid)) {
                             holder.setUsername(model.getUsername()); // Fix the method name here
                             holder.setTime(model.getTime());
                             holder.setDate(model.getDate());
@@ -235,23 +187,20 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
                             holder.setPostimage(getApplicationContext(), model.getPostimage());
                             Log.i("Holder", "made");
 
-                        }
-                        else{
+                        } else {
 
                             Log.i("UID", model.getUid());
                         }
 
-                        holder.mView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent clickPostIntent = new Intent(PersonalProfilePageActivity.this,ClickPostActivity.class);
-                                clickPostIntent.putExtra("PostKey", PostKey);
-                                startActivity(clickPostIntent);
-                            }
+                        holder.mView.setOnClickListener(v -> {
+                            Intent clickPostIntent = new Intent(PersonalProfilePageActivity.this, ClickPostActivity.class);
+                            clickPostIntent.putExtra("PostKey", PostKey);
+                            startActivity(clickPostIntent);
                         });
                     }
 
                     //@NonNull
+                    @NonNull
                     @Override
                     public PersonalProfilePageActivity.PostsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
@@ -276,43 +225,45 @@ public class PersonalProfilePageActivity extends AppCompatActivity {
         }
 
         public void setUsername(String userName) {
-            TextView username = (TextView) mView.findViewById(R.id.post_user_name);
+            TextView username = mView.findViewById(R.id.post_user_name);
             username.setText(userName);
         }
 
-        public void setProfileimage(Context ctx, String profileimage) {
-            CircleImageView image = (CircleImageView) mView.findViewById(R.id.post_profile_image);
+        public void setProfileimage(Context ignoredCtx, String profileimage) {
+            CircleImageView image = mView.findViewById(R.id.post_profile_image);
             Picasso.get().load(profileimage).into(image);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setTime(String time) {
-            TextView PostTime = (TextView) mView.findViewById(R.id.post_time);
+            TextView PostTime = mView.findViewById(R.id.post_time);
             PostTime.setText("    " + time);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setDate(String date) {
-            TextView PostDate = (TextView) mView.findViewById(R.id.post_date);
+            TextView PostDate = mView.findViewById(R.id.post_date);
             PostDate.setText("    " + date);
         }
 
         public void setDescription(String description) {
-            TextView PostDescription = (TextView) mView.findViewById(R.id.post_description);
+            TextView PostDescription = mView.findViewById(R.id.post_description);
             PostDescription.setText(description);
         }
 
         public void setSport(String sport) {
-            TextView PostSport = (TextView) mView.findViewById(R.id.post_sport);
+            TextView PostSport = mView.findViewById(R.id.post_sport);
             PostSport.setText(sport);
         }
 
         public void setDaterange(String daterange) {
-            TextView PostDateRange = (TextView) mView.findViewById(R.id.post_date_range);
+            TextView PostDateRange = mView.findViewById(R.id.post_date_range);
             PostDateRange.setText(daterange);
 
         }
-        public void setPostimage(Context ctx1,  String postimage)
+        public void setPostimage(Context ignoredCtx1, String postimage)
         {
-            ImageView PostImage = (ImageView) mView.findViewById(R.id.post_image);
+            ImageView PostImage = mView.findViewById(R.id.post_image);
             Picasso.get().load(postimage).into(PostImage);
         }
 
